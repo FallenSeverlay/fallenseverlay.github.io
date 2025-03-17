@@ -9,36 +9,50 @@
         <title>Todo List</title>
     </head>
     <body>
-        <h1>Список задач</h1>
-        <label>Новая задача</label><br>
-        <input type="text" id="task" name="task" size=10/>
-        <button class="AddNewTaskButton">+ Добавить</button>
-        <ul class="TodoList">
-            <li class="BacklogGroup">Бэклог</li>
-            <ul class="BacklogGroup">
-                <li>Выучить JS</li>
-                <li>Выучить React</li>
-                <li>Сделать домашку</li>
-            </ul>
+		<div class="container">
+			<h1>Список задач</h1>
 
-            <li class="ProcessGroup">В процессе</li>
-            <ul class="ProcessGroup">
-                <li>Выпить смузи</li>
-                <li>Попить воды</li>
-            </ul>
+			<div class="task-container">
+				<h2>Новая задача</h2>
+				<input type="text" placeholder="Название задачи...">
+				<button class="add-new-task-button">+ Добавить</button>
+			</div>
 
-            <li class="ReadyGroup">Готово</li>
-            <ul class="ReadyGroup">
-                <li>Позвонить маме</li>
-                <li>Погладить кота</li>
-            </ul>
+			<ul class="todo-list">
+				<li class="backlog column">
+					<span class="title">Бэклог</span>
+					<ul>
+						<li class="item">Выучить JS</li>
+						<li class="item">Выучить React</li>
+						<li class="item">Сделать домашку</li>
+					</ul>
+				</li>
 
-            <li class="TrashGroup">Корзина</li>
-            <ul class="TrashGroup">
-                <li>Сходить погулять</li>
-                <li>Прочитать Войну и Мир</li>
-                <button class="DeleteButton">Удалить</button>
-            </ul>
-        </ul>
+				<li class="progress column">
+					<span class="title">В процессе</span>
+					<ul>
+						<li class="item">Выпить смузи</li>
+						<li class="item">Попить воды</li>
+					</ul>
+				</li>
+
+				<li class="ready column">
+					<span class="title">Готово</span>
+					<ul>
+						<li class="item">Позвонить маме</li>
+						<li class="item">Погладить кота</li>
+					</ul>
+				</li>
+
+				<li class="trash column">
+					<span class="title">Корзина</span>
+					<ul>
+						<li class="item">Сходить погулять</li>
+						<li class="item">Прочитать Войну и Мир</li>
+					</ul>
+					<button class="delete-button">✕ Очистить</button>
+				</li>
+			</ul>
+		</div>
     </body>
 </html>
