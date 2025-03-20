@@ -17,7 +17,7 @@ h1 {
 	padding: 30px 30px 30px 30px;
 	border-radius: 10px;
 	display: inline-block;
-	margin: 50px 50px 20px 70px;
+	margin: 50px 50px 20px 40px;
 }
 
 .task-container h2 {
@@ -44,11 +44,17 @@ h1 {
 
 .todo-list {
 	display: flex;
-	gap: 20px;
+	flex-wrap: wrap;
+	justify-content: space-between;
 	padding: 0;
-	margin: 50px;
+	margin: 50px 20px;
 	list-style-type: none;
-	justify-content: left;
+}
+
+.todo-list li.column {
+    flex: 0 0 25%;
+    max-width: 25%;
+	box-sizing: border-box;
 }
 
 ul {
