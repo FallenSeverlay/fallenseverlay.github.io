@@ -42,6 +42,13 @@ h1 {
 	cursor: pointer;
 }
 
+.columns {
+	display: flex;
+	flex: 100%;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
 .todo-list {
 	display: flex;
 	flex-wrap: wrap;
@@ -55,6 +62,7 @@ h1 {
     flex: 0 0 25%;
     max-width: 25%;
 	box-sizing: border-box;
+	margin: 0px 0px 70px 0px;
 }
 
 ul {
@@ -73,6 +81,15 @@ ul {
 	padding: 10px 15px;
 	border-radius: 10px;
 	margin: 10px 20px 10px;
+}
+
+.column .title {
+	background-color: #e0e0e0;
+	color: #404040;
+}
+
+.column .item {
+	border-left: 5px solid #e0e0e0
 }
 
 .backlog .title {
