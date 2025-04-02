@@ -1,21 +1,25 @@
 import {createElement} from "../render.js";
 
 
-function createTaskListItemComponentTemplate(name) {
+function createTaskListItemComponentTemplate(task) {
+  const {title, status} = task;
     return (
-        `<li class="item">${name}</li>`
+        `<li class="item">
+          <span class="task-title">${title}</span>
+          <button aria-label="Изменить" class="task-edit-button" type="button" title="Изменить">✏️</button>
+        </li>`
       );
 }
 
 
 export default class TaskListItemComponent {
-  constructor(name) {
-    this.name = name;
+  constructor({task}) {
+    this.task = task;
     this.element = null;
   }
 
   getTemplate() {
-    return createTaskListItemComponentTemplate(this.name);
+    return createTaskListItemComponentTemplate(this.task);
   }
 
 

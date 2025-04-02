@@ -40,6 +40,7 @@ h1 {
 	border-radius: 8px;
 	padding: 10px 50px 10px 10px;
 	cursor: pointer;
+	text-align: center;
 }
 
 .columns {
@@ -74,7 +75,19 @@ ul {
 	background-color: #fff;
 	border-radius: 8px;
 	margin: 10px 10px 10px 5px;
-	padding: 20px 100px 20px 10px;
+	padding: 20px 20px 20px 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: white;
+	transition: box-shadow 0.2s ease, border 0.2s ease;
+  	border: 1px solid transparent;
+}
+
+.item:hover {
+	border: 1px solid #a5c4ff;
+	box-shadow: 0 2px 8px rgba(66, 133, 244, 0.2);
+	background-color: #f8fbff;
 }
 
 .title {
@@ -101,39 +114,79 @@ ul {
 	border-left: 5px solid #e0e0e0
 }
 
-.progress .title {
+.backlog .item:hover {
+	border: 1px solid #999;
+	box-shadow: 0 2px 8px rgba(160, 160, 160, 0.2);
+	background-color: #f3f3f3;
+}
+
+.processing .title {
 	background-color: #c4e5ff;
 	color: #3870ff;
 }
 
-.progress .item {
+.processing .item {
 	border-left: 5px solid #c4e5ff
 }
 
-.ready .title {
+.processing .item:hover {
+	border: 1px solid #84c5ff;
+	box-shadow: 0 2px 8px rgba(132, 197, 255, 0.3);
+	background-color: #eaf6ff;
+}
+
+.done .title {
 	background-color: #b1fcb7;
 	color: #00b533;
 }
 
-.ready .item {
+.done .item {
 	border-left: 5px solid #b1fcb7
 }
 
-.trash .title {
+.done .item:hover {
+	border: 1px solid #7fe887;
+	box-shadow: 0 2px 8px rgba(127, 232, 135, 0.3);
+	background-color: #e7fdf0;
+}
+
+.basket .title {
 	background-color: #fcdcdc;
 	color: #ff2929;
 }
 
-.trash .item {
+.basket .item {
 	border-left: 5px solid #fcdcdc
 }
 
+.basket .item:hover {
+	border: 1px solid #ff6b6b;
+	box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+	background-color: #fff0f0;
+}
+
 .delete-button {
+	padding: 20px 20px 20px 10px;
+	margin: 10px 10px 10px 5px;
+	width: calc(100% - 15px);
+	box-sizing: border-box;
 	background-color: #d66d6d;
 	color: white;
 	border: none;
 	border-radius: 8px;
-	padding: 15px 100px 15px 100px;
-	margin: 0px 0px 0px 20px;
-	cursor: pointer;
+	font-size: 16px;
+	text-align: left;
+}
+
+.task-edit-button {
+	opacity: 0;
+	background-color: transparent;
+	border: none;
+	pointer-events: none;
+	transition: opacity 0.2s ease;
+}
+
+.item:hover .task-edit-button {
+	opacity: 1;
+	pointer-events: auto;
 }
