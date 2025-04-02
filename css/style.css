@@ -183,10 +183,17 @@ ul {
 	background-color: transparent;
 	border: none;
 	pointer-events: none;
-	transition: opacity 0.2s ease;
+	transition: 
+		opacity 0.2s ease,
+		transform 0.2s ease,
+		background-color 0.2s ease;
 }
 
 .item:hover .task-edit-button {
 	opacity: 1;
 	pointer-events: auto;
 }
+
+.task-edit-button:hover {
+	transform: scale(1.3);
+  }
