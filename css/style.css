@@ -71,6 +71,18 @@ ul {
 	padding: 10px 15px;
 }
 
+.item-blank {
+	background-color: #f8fbff;
+	border: 2px dotted #d0d7e2;
+	color: #c3c3c3;
+	justify-content: center;
+	font-weight: 400;
+	pointer-events: none;
+	border-radius: 8px;
+	margin: 10px 10px 10px 5px;
+	padding: 20px 20px 20px 10px;
+}
+
 .item {
 	background-color: #fff;
 	border-radius: 8px;

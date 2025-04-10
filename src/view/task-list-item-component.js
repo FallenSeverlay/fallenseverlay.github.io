@@ -1,8 +1,8 @@
-import {createElement} from "../render.js";
+import { AbstractComponent } from "./abstract-component.js";
 
 
 function createTaskListItemComponentTemplate(task) {
-  const {title, status} = task;
+  const {title} = task;
     return (
         `<li class="item">
           <span class="task-title">${title}</span>
@@ -12,28 +12,13 @@ function createTaskListItemComponentTemplate(task) {
 }
 
 
-export default class TaskListItemComponent {
+export default class TaskListItemComponent extends AbstractComponent {
   constructor({task}) {
+    super();
     this.task = task;
-    this.element = null;
   }
 
-  getTemplate() {
+  get template() {
     return createTaskListItemComponentTemplate(this.task);
-  }
-
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-
-    return this.element;
-  }
-
-
-  removeElement() {
-    this.element = null;
   }
 }

@@ -1,26 +1,12 @@
-import {createElement} from "../render.js";
+import { AbstractComponent } from "./abstract-component.js";
 
 
 function createTaskListDeleteButtonComponentTemplate() {
     return `<button class="delete-button">✕ Очистить</button>`
 }
 
-export default class TaskListDeleteButtonComponent {
-  getTemplate() {
+export default class TaskListDeleteButtonComponent extends AbstractComponent {
+  get template() {
     return createTaskListDeleteButtonComponentTemplate();
-  }
-
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-
-  removeElement() {
-    this.element = null;
   }
 }
