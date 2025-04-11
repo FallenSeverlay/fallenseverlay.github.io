@@ -1,5 +1,20 @@
 export const tasks = [
 	{
+		id: "1",
+		title: "Сходить в магаз",
+		status: "backlog",
+	},
+	{
+		id: "2",
+		title: "Пойти погулять",
+		status: "backlog",
+	},
+	{
+		id: "3",
+		title: "Устроиться на работу",
+		status: "backlog",
+	},
+	{
 		id: "4",
 		title: "Выучить JS",
 		status: "processing",
@@ -26,17 +41,22 @@ export const tasks = [
 	},
 	{
 		id: "9",
-		title: "Элемент в мусорке",
+		title: "Оптимизировать код на Vue.js",
 		status: "basket",
 	},
 	{
 		id: "10",
-		title: "Мусор",
+		title: "Удалить ненужные файлы",
 		status: "basket",
 	},
 	{
 		id: "11",
-		title: "Пять",
+		title: "Очистить базу данных",
+		status: "basket",
+	},
+	{
+		id: "12",
+		title: "Изучить архитектуру .NET Core",
 		status: "basket",
 	}
 ];
