@@ -53,7 +53,7 @@ export default class TasksBoardPresenter {
         render(this.#taskListComponent, this.#boardContainer);
         for (const [status, label] of Object.entries(StatusLabel)) {
 
-            const columnComponent = new TaskListColumnComponent(status, label);
+            const columnComponent = new TaskListColumnComponent(status, label, this.#handleTaskDrop.bind(this));
             render(columnComponent, this.#taskListComponent.element);
 
             const columnContainer = columnComponent.element.querySelector(`.${status}__inner`);
@@ -76,6 +76,10 @@ export default class TasksBoardPresenter {
                 }
             }
         }
+    }
+
+    #handleTaskDrop(taskId, newStatus, newIndex) {
+        this.#tasksModel.updateTaskStatus(taskId, newStatus, newIndex);
     }
 
     #renderBlankTask(container) {
