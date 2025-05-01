@@ -2,51 +2,74 @@ import TaskListComponent from '../view/task-list-component.js';
 import TaskListColumnComponent from '../view/task-list-column-component.js';
 import TaskListItemComponent from '../view/task-list-item-component.js';
 import TaskListDeleteButtonComponent from '../view/task-list-delete-button-component.js';
-import {Status, StatusLabel} from '../const.js';
-import {render} from '../render.js';
+import LoadingViewComponent from '../view/loading-view-component.js';
+import {Status, StatusLabel, UserAction} from '../const.js';
+import {render} from '../framework/render.js';
 import TaskListItemBlankComponent from '../view/task-list-item-blank.js';
 
 export default class TasksBoardPresenter {
     #boardContainer = null;
     #tasksModel = null;
+    #deleteButtonComponent = null;
     #taskListComponent = new TaskListComponent();
+    #loadingComponent = null;
 
     constructor({boardContainer, tasksModel}) {
         this.#boardContainer = boardContainer;
         this.#tasksModel = tasksModel;
-
-        this.#tasksModel.addObserver(this.#handleModelChange.bind(this));
+        this.#tasksModel.addObservable(this.#handleModelChange.bind(this));
     }
 
-    init() {
-        this.boardTasks = [...this.#tasksModel.tasks];
-
+    async init() {
+        this.#loadingComponent = new LoadingViewComponent();
+        render(this.#loadingComponent, this.#boardContainer);
+        await this.#tasksModel.init();
+        this.#loadingComponent.element.remove();
+        this.#clearBoard();
         this.#renderTasks();
+        
     }
 
-    createTask() {
+    async createTask() {
         const taskTitle = document.querySelector('input').value.trim();
         if (!taskTitle) {
             return;
         }
 
-        this.#tasksModel.addTask(taskTitle);
-
-        document.querySelector('input').value = '';
+        try {
+            await this.#tasksModel.addTask(taskTitle);
+            document.querySelector('input').value = '';
+        } catch (err) {
+            console.error("Ошибка при создании задачи: ", err);
+        }
     }
 
-    #handleModelChange() {
-        this.boardTasks = [...this.#tasksModel.tasks];
-        this.#clearBoard();
-        this.#renderTasks();
+    #handleModelChange(event) {
+        switch(event) {
+            case UserAction.ADD_TASK:
+            case UserAction.UPDATE_TASK:
+            case UserAction.DELETE_TASK:
+                this.#clearBoard();
+                this.#renderTasks();
+                if (this.#deleteButtonComponent) {
+                    this.#deleteButtonComponent.toggleDisabled(!this.#tasksModel.hasBasketTasks());
+                }
+                break;
+        }
     }
 
-    #handleClearBasket() {
-        this.#tasksModel.clearTasksByStatus('basket');
+    async #handleClearBasket() {
+        try {
+            await this.#tasksModel.clearBasketTasks();
+        } catch (err) {
+            console.error("Ошибка при очистке корзины: ", err);
+        }
     }
 
     #clearBoard() {
+        this.#loadingComponent.removeElement();
         this.#taskListComponent.element.innerHTML = '';
+        
     }
 
     #renderTasks() {
@@ -58,7 +81,7 @@ export default class TasksBoardPresenter {
 
             const columnContainer = columnComponent.element.querySelector(`.${status}__inner`);
 
-            const filteredTasks = this.boardTasks.filter(task => task.status === status);
+            const filteredTasks = this.#tasksModel.tasks.filter(task => task.status === status);
 
             if (filteredTasks.length === 0) {
                 this.#renderBlankTask(columnContainer);
@@ -78,8 +101,13 @@ export default class TasksBoardPresenter {
         }
     }
 
-    #handleTaskDrop(taskId, newStatus, newIndex) {
-        this.#tasksModel.updateTaskStatus(taskId, newStatus, newIndex);
+    async #handleTaskDrop(taskId, newStatus, newIndex) {
+        try {
+            await this.#tasksModel.updateTaskStatus(taskId, newStatus, newIndex);
+            this.#handleModelChange(newStatus);
+        } catch (err) {
+            console.error("Ошибка при обновления статуса задачи: ", err);
+        }
     }
 
     #renderBlankTask(container) {
