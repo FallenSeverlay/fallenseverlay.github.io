@@ -104,7 +104,6 @@ export default class TasksBoardPresenter {
     async #handleTaskDrop(taskId, newStatus, newIndex) {
         try {
             await this.#tasksModel.updateTaskStatus(taskId, newStatus, newIndex);
-            this.#handleModelChange(newStatus);
         } catch (err) {
             console.error("Ошибка при обновления статуса задачи: ", err);
         }

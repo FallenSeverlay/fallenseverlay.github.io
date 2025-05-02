@@ -9,10 +9,6 @@ export default class TaskModel extends Observable {
     constructor({taskApiService}) {
       super();
       this.#tasksApiService = taskApiService;
-      
-      this.#tasksApiService.tasks.then((tasks) => {
-        console.log(tasks);
-      });
     }
 
     async init() {
@@ -55,21 +51,48 @@ export default class TaskModel extends Observable {
     }
 
     async updateTaskStatus(taskId, newStatus, newIndex = null) {
-      const task = this.#boardtasks.find(task => task.id === taskId);
+      const task = this.#boardtasks.find(t => t.id === taskId);
+      if (!task) {
+        return;
+      }
+  
       const previousStatus = task.status;
-
-      if (task) {
-        task.status = newStatus;
-
-        try {
-          const updatedTask = await this.#tasksApiService.updateTask(task);
-          Object.assign(task, updatedTask);
-          this._notify(UserAction.UPDATE_TASK, task);
-        } catch(err) {
-          console.error("Ошибка при обновлении статуса задачи: ", err);
-          task.status = previousStatus;
-          throw err;
+      const previousIndex = this.#boardtasks.indexOf(task);
+  
+      this.#boardtasks.splice(previousIndex, 1);
+  
+      task.status = newStatus;
+  
+      let insertIndex;
+      if (newIndex !== null) {
+        const statusIndices = this.#boardtasks
+          .map((t, i) => t.status === newStatus ? i : -1)
+          .filter(i => i !== -1);
+  
+        if (statusIndices.length === 0) {
+          insertIndex = this.#boardtasks.length;
+        } else if (newIndex >= statusIndices.length) {
+          insertIndex = statusIndices[statusIndices.length - 1] + 1;
+        } else {
+          insertIndex = statusIndices[newIndex];
         }
+      } else {
+        insertIndex = this.#boardtasks.length;
+      }
+
+      this.#boardtasks.splice(insertIndex, 0, task);
+  
+      try {
+        const updatedTask = await this.#tasksApiService.updateTask(task);
+        Object.assign(task, updatedTask);
+        this._notify(UserAction.UPDATE_TASK, task);
+      } catch (err) {
+        task.status = previousStatus;
+        const currentIndex = this.#boardtasks.findIndex(t => t.id === taskId);
+        this.#boardtasks.splice(currentIndex, 1);
+        this.#boardtasks.splice(previousIndex, 0, task);
+        console.error("Ошибка при обновлении статуса задачи: ", err);
+        throw err;
       }
     }
 
